@@ -18,6 +18,12 @@
   - G-02 confirmado: o guard falha aberto quando recebe JSON com tipo inesperado.
   - G-04 confirmado: append concorrente perde linhas.
 
+## Arquivos de build movidos para a raiz
+- Decisão do usuário (messageId d792bc67) com autorização pontual de escrita na raiz. Delegação ao developer: 07023378.
+- O developer moveu via `git mv` os seis arquivos de build de `src/` para a raiz, ajustando os caminhos do `.slnx`.
+- **Evidência do orquestrador:** `dotnet build BancoCarrefour.slnx -c Release --no-incremental` na raiz → 0 avisos, 0 erros.
+- Novos findings: DEV-009 (`.editorconfig` × Markdown), DEV-010 (contexto Docker na raiz), DEV-011 (dono das versões de pacotes de teste).
+
 ## Não realizado
 - Nenhum teste implementado ou executado.
 - Nenhum commit nesta etapa até aqui.

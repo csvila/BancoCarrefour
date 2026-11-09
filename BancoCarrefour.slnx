@@ -1,0 +1,22 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="global.json" />
+    <File Path="NuGet.config" />
+  </Folder>
+  <Folder Name="/src/" />
+  <Folder Name="/src/BuildingBlocks/">
+    <Project Path="src/BuildingBlocks/BancoCarrefour.ServiceDefaults/BancoCarrefour.ServiceDefaults.csproj" />
+  </Folder>
+  <Folder Name="/src/Services/" />
+  <Folder Name="/src/Services/CoreBanking/">
+    <Project Path="src/Services/CoreBanking/BancoCarrefour.CoreBanking.Accounts/BancoCarrefour.CoreBanking.Accounts.csproj" />
+    <Project Path="src/Services/CoreBanking/BancoCarrefour.CoreBanking.Host/BancoCarrefour.CoreBanking.Host.csproj" />
+    <Project Path="src/Services/CoreBanking/BancoCarrefour.CoreBanking.Ledger/BancoCarrefour.CoreBanking.Ledger.csproj" />
+  </Folder>
+  <Folder Name="/src/Services/Payments/">
+    <Project Path="src/Services/Payments/BancoCarrefour.Payments.Api/BancoCarrefour.Payments.Api.csproj" />
+  </Folder>
+</Solution>

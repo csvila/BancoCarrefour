@@ -1,7 +1,8 @@
 <Project>
   <!--
-    Baseline de build de produção (ADR-0013). Aplica-se apenas a projetos sob src/.
-    Projetos de teste (tests/) devem ter Directory.Build.props próprio mantido pelo test-analyst.
+    Baseline de build (ADR-0013), localizado na raiz do repositório: aplica-se a src/ e a tests/.
+    Projetos de teste podem ter tests/Directory.Build.props próprio (mantido pelo test-analyst) que importe este
+    arquivo via GetPathOfFileAbove e sobrescreva apenas o necessário (ex.: IsPackable/IsTestProject).
   -->
   <PropertyGroup Label="Plataforma">
     <TargetFramework>net10.0</TargetFramework>
