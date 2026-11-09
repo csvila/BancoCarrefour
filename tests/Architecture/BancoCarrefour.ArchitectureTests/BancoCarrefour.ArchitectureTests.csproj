@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>BancoCarrefour.ArchitectureTests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="NetArchTest.eNhancedEdition" />
+    <PackageReference Include="Shouldly" />
+  </ItemGroup>
+
+  <!-- Referências apenas para carregar os assemblies de produção sob análise (somente leitura). -->
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\BuildingBlocks\BancoCarrefour.ServiceDefaults\BancoCarrefour.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\..\..\src\Services\CoreBanking\BancoCarrefour.CoreBanking.Accounts\BancoCarrefour.CoreBanking.Accounts.csproj" />
+    <ProjectReference Include="..\..\..\src\Services\CoreBanking\BancoCarrefour.CoreBanking.Ledger\BancoCarrefour.CoreBanking.Ledger.csproj" />
+    <ProjectReference Include="..\..\..\src\Services\CoreBanking\BancoCarrefour.CoreBanking.Host\BancoCarrefour.CoreBanking.Host.csproj" />
+    <ProjectReference Include="..\..\..\src\Services\Payments\BancoCarrefour.Payments.Api\BancoCarrefour.Payments.Api.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="$(TestKitDir)SensitiveDataDetectors.cs" Link="TestKit\SensitiveDataDetectors.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+    <Using Include="Shouldly" />
+  </ItemGroup>
+
+</Project>

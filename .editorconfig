@@ -11,6 +11,10 @@ indent_size = 4
 [*.{json,xml,csproj,props,targets,slnx,config,yml,yaml}]
 indent_size = 2
 
+[*.md]
+# Dois espaços no fim da linha são quebra de linha (hard break) em Markdown; não remover.
+trim_trailing_whitespace = false
+
 [*.cs]
 # Organização
 dotnet_sort_system_directives_first = true

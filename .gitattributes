@@ -1,0 +1,22 @@
+# Normalização de fim de linha (DEV-013). Repositório usa LF no índice e no working tree,
+# independentemente de core.autocrlf, alinhado ao .editorconfig (end_of_line = lf).
+* text=auto eol=lf
+
+# Scripts nativos do Windows exigem CRLF para execução confiável pelo cmd.exe/PowerShell 5.1.
+# Regra antecipada: hoje não há arquivos com essas extensões; mantê-la evita CRLF/LF inconsistente quando surgirem.
+*.ps1 text eol=crlf
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+# Binários: nunca normalizar nem gerar diff textual.
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.pdf  binary
+*.zip  binary
+*.dll  binary
+*.exe  binary
+*.pfx  binary
+*.snk  binary

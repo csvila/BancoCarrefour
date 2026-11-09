@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>BancoCarrefour.Payments.Api.IntegrationTests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="Microsoft.Playwright" />
+    <PackageReference Include="Shouldly" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Services\Payments\BancoCarrefour.Payments.Api\BancoCarrefour.Payments.Api.csproj" />
+  </ItemGroup>
+
+  <!-- TestKit compartilhado por código-fonte: evita um projeto extra que precisaria de referência direta a
+       Microsoft.IdentityModel.* (não aprovado como dependência direta; chega transitivamente via JwtBearer). -->
+  <ItemGroup>
+    <Compile Include="$(TestKitDir)**\*.cs" Link="TestKit\%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+    <Using Include="Shouldly" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,17 @@
+<Project>
+  <!--
+    Baseline de build dos testes (test-analyst). Importa o Directory.Build.props da raiz (ADR-0013) e acrescenta
+    somente o que é específico de projetos de teste. TreatWarningsAsErrors, analyzers, lock files e NuGetAudit
+    continuam herdados da raiz e NÃO são relaxados aqui.
+  -->
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)..'))" />
+
+  <PropertyGroup Label="Projetos de teste (xunit.v3 + Microsoft Testing Platform)">
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <!-- xunit.v3: o projeto de teste é um executável (MTP nativo; VSTest não é usado, DEV-012). -->
+    <OutputType>Exe</OutputType>
+    <!-- Testes também são verificados contra o lock file; restore em CI com locked mode (herdado da raiz). -->
+    <TestKitDir>$(MSBuildThisFileDirectory)TestKit/Shared/</TestKitDir>
+  </PropertyGroup>
+</Project>

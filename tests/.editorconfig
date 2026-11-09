@@ -1,0 +1,14 @@
+# Complemento do .editorconfig da raiz apenas para tests/** (test-analyst). Não define root=true.
+# Supressões mínimas e justificadas; TreatWarningsAsErrors permanece ativo.
+
+[*.cs]
+# Nomes de teste no padrão Metodo_Estado_Esperado (skill testing-xunit) usam underscore.
+dotnet_diagnostic.CA1707.severity = none
+# xUnit exige classes de teste públicas; tornar tipos internos (CA1515) quebraria a descoberta.
+dotnet_diagnostic.CA1515.severity = none
+# Testes montam URIs relativas de requisição como string por legibilidade (contrato HTTP sob teste).
+dotnet_diagnostic.CA2234.severity = none
+dotnet_diagnostic.CA1054.severity = none
+dotnet_diagnostic.CA1056.severity = none
+# Dados de Theory/arrays literais em asserções são intencionais e executados poucas vezes.
+dotnet_diagnostic.CA1861.severity = none

@@ -24,7 +24,12 @@ C1 e C2 (`docs/architecture/c4/`), bounded contexts, NFRs, threat model, topolog
 - **Arquivos de build na raiz** (decisão do usuário, DEV-001/TA-005 resolvidos): `global.json`, `BancoCarrefour.slnx`, `Directory.Build.props`, `Directory.Packages.props`, `NuGet.config`, `.editorconfig`. Build a partir da raiz com 0 avisos. Edições futuras nesses arquivos exigem autorização do usuário até a ADR-0014.
 - **Skeleton (developer):** `src/` com CPM, NuGet source mapping, lock files, ServiceDefaults (JwtBearer fail-closed, Problem Details, correlation-id, OTel, health), CoreBanking.Host (gRPC; módulos Ledger/Accounts vazios) e Payments.Api (`/v1`). Build Release com 0 avisos e 0 erros, verificado pelo orquestrador. Não commitado.
 - **Plano de testes (test-analyst):** `tests/TEST-PLAN.md` com 154 casos, rastreabilidade com SEC-REQ e ADRs. Nenhum teste implementado.
-- **Decisões abertas:** dependências de teste (D-3) e quem edita as versões de pacotes de teste no `Directory.Packages.props` da raiz (DEV-011), seção `[*.md]` no `.editorconfig` (DEV-009), framework dos testes de governança (D-1, ligado à ADR-0014), regra 404/403 (TA-004), semânticas de Risco (TA-006), lista de dados sintéticos (TA-007).
+- **Testes:** pacotes aprovados (xunit.v3, Mvc.Testing, Playwright + Xunit.v3, Testcontainers.PostgreSql, TimeProvider.Testing, NetArchTest, Shouldly) cadastrados pelo developer no `Directory.Packages.props` da raiz. A execução é feita só pela Microsoft Testing Platform (`dotnet test --solution BancoCarrefour.slnx`); os pacotes VSTest foram removidos. `.gitattributes` com LF.
+- **Testes F0 (test-analyst):** 4 projetos em `tests/` com 225 testes: 216 passaram, 0 falharam, 9 em Skip. Cada Skip corresponde a um defeito de produção (TA-013..TA-019). Execução verificada pelo orquestrador em 2026-11-09.
+  - **Mais grave: TA-015 (Alta).** Chave revogada continua aceita.
+  - **TA-019 (Média):** aud/iss ampliáveis por configuração.
+  - Correções pendentes com o developer, após decisão do usuário e da security-privacy.
+- **Decisões abertas:** TA-013/014/015/019 (correção ou ajuste de ADR); incluir os testes na `.slnx` e `tests/TestResults/` no `.gitignore`; aprovar dependências transitivas usadas diretamente pelos testes; gate `--minimum-expected-tests` no CI (DEV-017), framework dos testes de governança (D-1, ligado à ADR-0014), regra 404/403 (TA-004), semânticas de Risco (TA-006), lista de dados sintéticos (TA-007).
 
 ## Próximos passos
 Etapa 2: C3 dos caminhos críticos, threat model v0.2 contra o C2, solution skeleton pelo `developer`, plano de testes pelo `test-analyst`.
