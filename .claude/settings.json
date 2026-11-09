@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "defaultMode": "default",
+    "deny": [
+      "Write(docs/governance/agent-communications.jsonl)",
+      "Edit(docs/governance/agent-communications.jsonl)"
+    ]
+  },
+  "hooks": {
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -c \"import json,sys,datetime; d=json.load(sys.stdin); print('SUBAGENT_START '+str(d.get('agent_type','unknown'))+' '+datetime.datetime.now(datetime.timezone.utc).isoformat())\" >> /tmp/claude-agent-lifecycle.log"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -c \"import json,sys,datetime; d=json.load(sys.stdin); print('SUBAGENT_STOP '+str(d.get('agent_type','unknown'))+' '+datetime.datetime.now(datetime.timezone.utc).isoformat())\" >> /tmp/claude-agent-lifecycle.log"
+          }
+        ]
+      }
+    ]
+  }
+}

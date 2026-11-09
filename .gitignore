@@ -1,0 +1,14 @@
+**/bin/
+**/obj/
+.vs/
+.idea/
+.env
+.env.*
+!.env.example
+secrets/
+*.pfx
+*.key
+*.pem
+*.snk
+playwright-report/
+test-results/
