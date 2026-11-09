@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <RootNamespace>BancoCarrefour.CoreBanking.Host</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Grpc.AspNetCore" />
+    <PackageReference Include="Grpc.AspNetCore.HealthChecks" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\BancoCarrefour.ServiceDefaults\BancoCarrefour.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\BancoCarrefour.CoreBanking.Accounts\BancoCarrefour.CoreBanking.Accounts.csproj" />
+    <ProjectReference Include="..\BancoCarrefour.CoreBanking.Ledger\BancoCarrefour.CoreBanking.Ledger.csproj" />
+  </ItemGroup>
+
+</Project>

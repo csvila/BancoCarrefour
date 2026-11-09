@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>BancoCarrefour.CoreBanking.Accounts</RootNamespace>
+  </PropertyGroup>
+
+</Project>

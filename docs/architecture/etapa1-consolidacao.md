@@ -77,9 +77,9 @@
 | ID | Sev. | Origem | Situação |
 |---|---|---|---|
 | G-01 Bash contorna o guard e o deny do JSONL | **Alta** | SEC-001, OPS-003, TM-034 | Aberto |
-| G-02 Guard fail-open com entrada malformada | Alta (não verificado) | SEC-002a, OPS-002 | Aberto. Interpretador ausente **não reproduzido** (python3 = 3.15.2) |
+| G-02 Guard fail-open com entrada malformada | **Alta (verificado)** | SEC-002a, OPS-002, TA-001 | Aberto. **Confirmado pelo test-analyst em 2026-11-09:** JSON com tipo inesperado → exit 1 (não bloqueia). Interpretador ausente não reproduzido (python3 = 3.15.2) |
 | G-03 Lifecycle fora do repositório | Média (rebaixado) | OPS-001, SEC-007, SW-014 | **Verificado:** grava em `%LOCALAPPDATA%\Temp` via Git Bash; funciona, mas fora da trilha |
-| G-04 JSONL sem lock (Windows), hash chain, inReplyTo, redação; `from` livre | Média | OPS-007, SEC-004/005/006 | Aberto. **Mitigação nesta sessão:** orquestrador grava sequencialmente; correlação via campo `summary` ("resp. a <id>") |
+| G-04 JSONL sem lock (Windows), hash chain, inReplyTo, redação; `from` livre | **Média-Alta (verificado)** | OPS-007, SEC-004/005/006, TA-002 | Aberto. **Confirmado:** 50 appends concorrentes numa cópia → 48–50 linhas, sem erro. **Mitigação nesta sessão:** orquestrador grava sequencialmente; correlação via campo `summary` ("resp. a <id>") |
 | G-05 Sem controles no servidor (CODEOWNERS, CI, branch protection); `master`×`main` | Alta | OPS-006, SEC-010 | Aberto (configuração do GitHub pelo usuário) |
 | G-06 Escopos inconsistentes (`deploy/`, `docs/`, `.github/`, `scripts/`) | Média | OPS-004/005, SEC-003, SA-007, CF-12 | Aberto |
 | G-07 Skill `secure-implementation` inexistente | Baixa | OPS-009, SEC-011, SA-008 | Aberto |

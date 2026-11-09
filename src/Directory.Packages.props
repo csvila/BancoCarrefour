@@ -1,0 +1,34 @@
+<Project>
+  <!-- Central Package Management (ADR-0013). Apenas versões estáveis, fixas e compatíveis com net10.0. -->
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+  </PropertyGroup>
+
+  <ItemGroup Label="ASP.NET Core (alinhado ao runtime 10.0.14)">
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.14" />
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.14" />
+  </ItemGroup>
+
+  <ItemGroup Label="Versionamento de API">
+    <PackageVersion Include="Asp.Versioning.Http" Version="10.2.3" />
+    <PackageVersion Include="Asp.Versioning.OpenApi" Version="10.2.3" />
+  </ItemGroup>
+
+  <ItemGroup Label="Resiliência">
+    <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.11.0" />
+  </ItemGroup>
+
+  <ItemGroup Label="OpenTelemetry">
+    <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.20.1" />
+    <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.20.1" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.20.2" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.20.2" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="1.20.1" />
+  </ItemGroup>
+
+  <ItemGroup Label="gRPC">
+    <PackageVersion Include="Grpc.AspNetCore" Version="2.85.0" />
+    <PackageVersion Include="Grpc.AspNetCore.HealthChecks" Version="2.85.0" />
+  </ItemGroup>
+</Project>

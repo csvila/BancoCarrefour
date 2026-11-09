@@ -1,0 +1,42 @@
+<Project>
+  <!--
+    Baseline de build de produção (ADR-0013). Aplica-se apenas a projetos sob src/.
+    Projetos de teste (tests/) devem ter Directory.Build.props próprio mantido pelo test-analyst.
+  -->
+  <PropertyGroup Label="Plataforma">
+    <TargetFramework>net10.0</TargetFramework>
+    <!-- LangVersion omitido de propósito: net10.0 usa C# 14 por padrão do SDK. -->
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+    <!--
+      Globalização invariante: APIs/serviços trocam dados culture-invariant (formatação para exibição é do canal),
+      comportamento determinístico entre ambientes e compatível com imagens chiseled sem ICU (ADR-0013).
+      Um módulo que precise de ICU (ex.: normalização de nomes no Party) deve sobrescrever com justificativa.
+    -->
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Qualidade">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <!--
+      GenerateDocumentationFile desligado: com TreatWarningsAsErrors geraria CS1591 em todo membro público (ruído).
+      Reavaliar quando houver contratos públicos versionados (gRPC/REST) que justifiquem XML docs.
+    -->
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Reprodutibilidade e supply chain">
+    <Deterministic>true</Deterministic>
+    <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <RestoreLockedMode Condition="'$(CI)' == 'true'">true</RestoreLockedMode>
+    <!-- Auditoria de vulnerabilidades (diretas e transitivas); com TreatWarningsAsErrors, NU190x quebra o build. -->
+    <NuGetAudit>true</NuGetAudit>
+    <NuGetAuditMode>all</NuGetAuditMode>
+    <NuGetAuditLevel>low</NuGetAuditLevel>
+  </PropertyGroup>
+</Project>
