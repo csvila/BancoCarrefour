@@ -167,12 +167,10 @@ public sealed class JwksResolutionAndFailClosedTests
         (await PingStatusAsync(client, factory.Tokens.Create())).ShouldBe(HttpStatusCode.NoContent);
     }
 
-    [Fact(Skip = "TA-015: chave removida do JWKS continua aceita após o refresh (last-known-good do IdentityModel, "
-        + "UseLastKnownGoodConfiguration=true por padrão; sonda com LKG desligado retornou 401). Viola SEC-REQ-005 "
-        + "'chave removida -> 401'. Reativar quando o developer decidir/corrigir.")]
+    [Fact]
     public async Task Ping_KeyRemovedFromJwksAfterRefresh_Returns401()
     {
-        // TC-016 (ramo remoção) / SEC-REQ-005.
+        // TC-016 (ramo remoção) / SEC-REQ-005. Gate de TA-015 (last-known-good desligado no PostConfigure).
         await using var factory = new PaymentsApiFactory();
         using var keyC = RSA.Create(2048);
         using var client = factory.CreateClient();

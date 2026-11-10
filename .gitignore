@@ -12,3 +12,4 @@ secrets/
 *.snk
 playwright-report/
 test-results/
+tests/TestResults/

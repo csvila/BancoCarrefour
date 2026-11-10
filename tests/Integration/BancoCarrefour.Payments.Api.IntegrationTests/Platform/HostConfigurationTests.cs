@@ -147,7 +147,7 @@ public sealed class HostConfigurationTests
 
         var exception = Should.Throw<Exception>(() => factory.CreateClient().Dispose());
 
-        Flatten(exception).ShouldContain(e => e is OptionsValidationException, $"Esperado OptionsValidationException; obtido: {exception.GetType()}");
+        ShouldHaveFailedOnOptionsValidation(factory, exception);
     }
 
     [Fact]
@@ -162,7 +162,7 @@ public sealed class HostConfigurationTests
 
         var exception = Should.Throw<Exception>(() => factory.CreateClient().Dispose());
 
-        Flatten(exception).ShouldContain(e => e is OptionsValidationException);
+        ShouldHaveFailedOnOptionsValidation(factory, exception);
     }
 
     [Fact]
@@ -181,20 +181,46 @@ public sealed class HostConfigurationTests
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
     }
 
-    [Fact(Skip = "TA-019: confirmado ponta a ponta (token com audience injetada via "
-        + "Authentication:Schemes:Bearer:ValidAudiences retorna 204). Reativar após correção do developer.")]
+    [Fact]
     public async Task Ping_TokenForAudienceInjectedViaSchemesBinding_Returns401()
     {
-        // TA-019 ponta a ponta: configuração adicional em Authentication:Schemes:Bearer não pode ampliar audiences.
+        // TA-019 ponta a ponta (gate): configuração adicional em Authentication:Schemes:Bearer não pode ampliar
+        // audiences. Controle positivo no mesmo host: o token da audience validada continua aceito.
         await using var factory = new PaymentsApiFactory(settingsOverride: new Dictionary<string, string?>
         {
             ["Authentication:Schemes:Bearer:ValidAudiences:0"] = "api://injected-audience",
         });
         using var client = factory.CreateClient();
 
+        (await PingStatusAsync(client, factory.Tokens.Create())).ShouldBe(HttpStatusCode.NoContent);
         var status = await PingStatusAsync(client, factory.Tokens.Create(s => s.Audience = "api://injected-audience"));
 
         status.ShouldBe(HttpStatusCode.Unauthorized);
+    }
+
+    /// <summary>
+    /// O startup precisa falhar por <see cref="OptionsValidationException"/>. TA-021: sob carga (os 4 projetos de teste
+    /// em paralelo), o <c>DeferredHost</c> do Microsoft.AspNetCore.Mvc.Testing às vezes perde a corrida com o
+    /// encerramento do Program e lança <see cref="ObjectDisposedException"/> (IServiceProvider) no lugar da exceção
+    /// original. A causa é sempre conferida no log "Hosting failed to start" capturado do próprio host (também no
+    /// caminho normal, para que esse oráculo seja exercitado em toda execução); a exceção lançada precisa ser a
+    /// original ou, só na corrida conhecida, a ObjectDisposedException vinda do DeferredHost.
+    /// </summary>
+    private static void ShouldHaveFailedOnOptionsValidation(PaymentsApiFactory factory, Exception exception)
+    {
+        factory.Logs.Entries.ShouldContain(
+            e => e.Category == "Microsoft.Extensions.Hosting.Internal.Host"
+                && e.Exception != null
+                && e.Exception.Contains(nameof(OptionsValidationException), StringComparison.Ordinal),
+            $"Host sem OptionsValidationException registrada no log de startup. Exceção lançada: {exception}");
+
+        if (Flatten(exception).Any(e => e is OptionsValidationException))
+        {
+            return;
+        }
+
+        exception.ShouldBeOfType<ObjectDisposedException>($"Esperado OptionsValidationException; obtido: {exception}");
+        (exception.StackTrace ?? string.Empty).ShouldContain("DeferredHost", Case.Sensitive, $"ObjectDisposedException fora da corrida conhecida: {exception}");
     }
 
     private static IEnumerable<Exception> Flatten(Exception exception)

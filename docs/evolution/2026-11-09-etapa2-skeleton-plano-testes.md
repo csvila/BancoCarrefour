@@ -70,7 +70,44 @@
   - TC-217: limite de corpo.
   - Parte do TC-216 e do TC-218: dependem de alterar o NuGet.config e do seam H-02.
 
+## Correções TA-015 e TA-019, `.slnx` e `.gitignore`
+- Autorização do usuário: messageId 76aa83f4. Delegação ao developer: c0805fbe. Resposta: c9662963.
+- **TA-015:** um PostConfigure desliga `UseLastKnownGoodConfiguration` no `ConfigurationManager`.
+  - Se o IdP cair, a configuração atual em cache continua valendo (verificado no código do IdentityModel 8.19.2).
+  - Em cold start, a validação falha fechada (401).
+- **TA-019:** o `TokenValidationParameters` é reconstruído só a partir das opções validadas.
+- **DEV-022 (corrigido junto):** `MetadataAddress`, `Forward*` e `SigningKeys` vindos do binding foram neutralizados.
+- Os 4 projetos de teste entraram na `BancoCarrefour.slnx`, e `tests/TestResults/` entrou no `.gitignore`.
+- **Evidência do orquestrador:**
+  - build da raiz (9 projetos) com 0 avisos e 0 erros;
+  - `dotnet test --solution BancoCarrefour.slnx -c Release --minimum-expected-tests 1`: 225 testes, 216 passaram, 0 falharam, 9 em Skip.
+- Os três testes de TA-015 e TA-019 sem Skip passaram numa cópia do repositório feita pelo developer. A reativação no repositório foi delegada ao test-analyst (5c2dbd79).
+- Findings em aberto:
+  - DEV-023: revogação ainda limitada pelo `AutomaticRefreshInterval` de 1 h; decisão da security-privacy;
+  - DEV-024: falha do PostConfigure aparece na primeira requisição, não no startup;
+  - DEV-025: registrar o LKG desabilitado na ADR-0006.
+
+## DEV-023 e reativação dos testes
+- O usuário autorizou o DEV-023 (messageId 798d2527); delegação ao developer: b1156cbe.
+  - `AutomaticRefreshInterval` passou de 1 h para 5 min, o mínimo do IdentityModel (abaixo disso ele lança IDX10108). `RefreshInterval` ficou em 5 min.
+  - Com o IdP disponível, uma chave revogada deixa de ser aceita em cerca de 5,5 min por instância.
+- **Reativação dos testes (test-analyst, 5c2dbd79):**
+  - Os 3 testes de TA-015/TA-019 voltaram a valer como gate.
+  - Testes novos para o DEV-022 e para o LKG desligado, com controles positivos.
+  - Todos os testes novos falham contra o código anterior à correção. Isso confirmou que `ForwardDefault`, vindo do binding, permitia passar sem token antes do DEV-022.
+- **Evidência do orquestrador:**
+  - build da raiz com 0 avisos e 0 erros;
+  - `dotnet test --solution BancoCarrefour.slnx -c Release --minimum-expected-tests 1`, executado 2 vezes: 235 testes, 0 falhas, 6 em Skip (TA-013, TA-014, TA-017, TA-018).
+- **Novos findings:**
+  - DEV-026 (Alta): com o IdP indisponível, a configuração atual em cache continua valendo sem limite de idade. Decisão pendente.
+  - DEV-027 (Média): sem backoff depois de uma falha de refresh.
+  - DEV-028 (Baixa): sem métrica de idade da configuração.
+  - TA-021: teste de startup instável; corrigido em `tests/`.
+  - TA-022: o binding não lê `AutomaticRefreshInterval`.
+  - TA-023: developer e test-analyst não devem trabalhar em paralelo no mesmo working tree.
+
 ## Não realizado
-- Correções de produção para TA-013..TA-019. Os testes correspondentes seguem em Skip.
-- Os projetos de teste não estão na `.slnx` e `tests/TestResults/` não está no `.gitignore`: as duas coisas aguardam autorização do usuário.
+- Correções de TA-013, TA-014, TA-017 e TA-018 (não autorizadas). Os testes correspondentes seguem em Skip.
+- DEV-024..DEV-028 não decididos.
+- ADR-0006 ainda não registra o LKG desligado nem o refresh de 5 min (DEV-025).
 - Nenhuma alteração em `.claude/` ou `scripts/` (ADR-0014 segue Proposed).

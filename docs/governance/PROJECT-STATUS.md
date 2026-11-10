@@ -28,8 +28,8 @@ C1 e C2 (`docs/architecture/c4/`), bounded contexts, NFRs, threat model, topolog
 - **Testes F0 (test-analyst):** 4 projetos em `tests/` com 225 testes: 216 passaram, 0 falharam, 9 em Skip. Cada Skip corresponde a um defeito de produção (TA-013..TA-019). Execução verificada pelo orquestrador em 2026-11-09.
   - **Mais grave: TA-015 (Alta).** Chave revogada continua aceita.
   - **TA-019 (Média):** aud/iss ampliáveis por configuração.
-  - Correções pendentes com o developer, após decisão do usuário e da security-privacy.
-- **Decisões abertas:** TA-013/014/015/019 (correção ou ajuste de ADR); incluir os testes na `.slnx` e `tests/TestResults/` no `.gitignore`; aprovar dependências transitivas usadas diretamente pelos testes; gate `--minimum-expected-tests` no CI (DEV-017), framework dos testes de governança (D-1, ligado à ADR-0014), regra 404/403 (TA-004), semânticas de Risco (TA-006), lista de dados sintéticos (TA-007).
+  - **TA-015 e TA-019 corrigidos** pelo developer com autorização do usuário, junto com o DEV-022. Testes incluídos na `.slnx`, `tests/TestResults/` no `.gitignore`. DEV-023 corrigido (refresh do JWKS a cada 5 min). Testes reativados como gate: suíte com 235 testes, 0 falhas e 6 em Skip (TA-013/014/017/018), verificada pelo orquestrador.
+- **Decisões abertas:** DEV-026 (Alta: idade máxima da configuração do JWKS com o IdP fora) e DEV-027/028; TA-013/014/017/018 (correção ou ajuste de ADR); DEV-025 (registrar na ADR-0006); aprovar dependências transitivas usadas diretamente pelos testes; gate `--minimum-expected-tests` no CI (DEV-017), framework dos testes de governança (D-1, ligado à ADR-0014), regra 404/403 (TA-004), semânticas de Risco (TA-006), lista de dados sintéticos (TA-007).
 
 ## Próximos passos
 Etapa 2: C3 dos caminhos críticos, threat model v0.2 contra o C2, solution skeleton pelo `developer`, plano de testes pelo `test-analyst`.

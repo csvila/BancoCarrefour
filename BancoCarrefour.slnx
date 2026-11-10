@@ -19,4 +19,15 @@
   <Folder Name="/src/Services/Payments/">
     <Project Path="src/Services/Payments/BancoCarrefour.Payments.Api/BancoCarrefour.Payments.Api.csproj" />
   </Folder>
+  <Folder Name="/tests/" />
+  <Folder Name="/tests/Architecture/">
+    <Project Path="tests/Architecture/BancoCarrefour.ArchitectureTests/BancoCarrefour.ArchitectureTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/Integration/">
+    <Project Path="tests/Integration/BancoCarrefour.CoreBanking.Host.IntegrationTests/BancoCarrefour.CoreBanking.Host.IntegrationTests.csproj" />
+    <Project Path="tests/Integration/BancoCarrefour.Payments.Api.IntegrationTests/BancoCarrefour.Payments.Api.IntegrationTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/Unit/">
+    <Project Path="tests/Unit/BancoCarrefour.ServiceDefaults.UnitTests/BancoCarrefour.ServiceDefaults.UnitTests.csproj" />
+  </Folder>
 </Solution>
